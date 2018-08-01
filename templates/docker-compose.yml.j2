@@ -1,0 +1,59 @@
+version: '3'
+services:
+  postgres:
+    image: "{{artifactory_postgres_image}}:{{artifactory_postgres_image_tag}}"
+    hostname: postgres
+    environment:
+      POSTGRES_USER: {{artifactory_postgres_user}}
+      POSTGRES_PASSWORD: {{artifactory_postgres_pass}}
+      POSTGRES_DB: {{artifactory_postgres_db}}
+{% for key, value in artifactory_postgres_env_vars.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
+    volumes:
+        - {{artifactory_postgres_datapath}}:/var/lib/postgresql/data
+    networks:
+        - {{artifactory_network_name}}
+{% if artifactory_postgres_deploy_labels %}
+    labels:
+{% for key, value in artifactory_postgres_deploy_labels.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
+{%- endif %}
+
+  artifactory:
+    image: "{{artifactory_image}}:{{artifactory_image_tag}}"
+    hostname: artifactory
+    user: root
+    environment:
+      - DB_HOST=postgres
+      - DB_TYPE=postgresql
+      # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
+      - "DB_USER={{ artifactory_postgres_user }}"
+      - "DB_PASSWORD={{ artifactory_postgres_pass }}"
+      # Add extra Java options by uncommenting the following line
+      - "EXTRA_JAVA_OPTIONS={{ artifactory_javaopts }}"
+{% for key, value in artifactory_env_vars.items() %}
+      - {{ key }}: {{ value }}
+{% endfor %}
+    depends_on:
+      - "postgres"
+    volumes:
+      - "{{ artifactory_datapath }}/artifactory:/var/opt/jfrog/artifactory"
+    entrypoint: /entrypoint-artifactory.sh
+    networks:
+        - {{artifactory_network_name}}
+{% if artifactory_deploy_labels %}
+    labels:
+{% for key, value in artifactory_deploy_labels.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
+{%- endif %}
+
+networks:
+  {{artifactory_network_name}}:
+    driver: overlay
+{% for net in artifactory_networks %}
+  {{ net }}:
+    external: true
+{% endfor %}

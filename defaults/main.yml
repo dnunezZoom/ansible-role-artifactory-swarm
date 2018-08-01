@@ -1,0 +1,26 @@
+---
+# postgres setings
+artifactory_postgres_user: artifactory
+artifactory_postgres_pass: artifactorypass
+artifactory_postgres_db: artifactory
+
+# artifactory settings
+artifactory_javaopts: "-Xmx4g"
+
+# docker stack settings
+artifactory_remove: false
+artifactory_stack_name: artifactory   # no spaces
+artifactory_network_name: net         # docker prepends stack name
+artifactory_networks: []              # additional networks
+
+artifactory_image: "docker.bintray.io/jfrog/artifactory-pro"
+artifactory_image_tag: "latest"
+artifactory_env_vars: {}
+artifactory_deploy_labels: ~
+artifactory_datapath: /opt/artifactory  # a subdirectory for af is created and used automatically
+
+artifactory_postgres_image: "docker.bintray.io/postgres"
+artifactory_postgres_image_tag: "9.5.2"
+artifactory_postgres_env_vars: {}
+artifactory_postgres_deploy_labels: ~
+artifactory_postgres_datapath: /opt/artifactory/postgresql/data
