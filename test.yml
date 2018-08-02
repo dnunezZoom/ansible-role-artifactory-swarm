@@ -2,6 +2,15 @@
   connection: local
   handlers:
     - include: 'handlers/main.yml'
+  vars:
+    artifactory_env_vars:
+      - SOMEVAR: somevalue
+    artifactory_deploy_labels:
+      - SOMELABEL: somevalue
+    artifactory_postgres_env_vars:
+      - SOMEVAR: somevalue
+    artifactory_postgres_deploy_labels:
+      - SOMELABEL: somevalue
   vars_files:
     - 'defaults/main.yml'
     - 'vars/main.yml'
