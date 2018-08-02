@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: {{artifactory_postgres_pass}}
       POSTGRES_DB: {{artifactory_postgres_db}}
 {% for key, value in artifactory_postgres_env_vars.items() %}
-      {{ key }}: {{ value }}
+      {{ key }}: "{{ value }}"
 {% endfor %}
     volumes:
         - {{artifactory_postgres_datapath}}:/var/lib/postgresql/data
@@ -26,15 +26,13 @@ services:
     hostname: artifactory
     user: root
     environment:
-      - DB_HOST=postgres
-      - DB_TYPE=postgresql
-      # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
-      - "DB_USER={{ artifactory_postgres_user }}"
-      - "DB_PASSWORD={{ artifactory_postgres_pass }}"
-      # Add extra Java options by uncommenting the following line
-      - "EXTRA_JAVA_OPTIONS={{ artifactory_javaopts }}"
+      DB_HOST: postgres
+      DB_TYPE: postgresql
+      DB_USER: "{{ artifactory_postgres_user }}"
+      DB_PASSWORD: "{{ artifactory_postgres_pass }}"
+      EXTRA_JAVA_OPTIONS "{{ artifactory_javaopts }}"
 {% for key, value in artifactory_env_vars.items() %}
-      - {{ key }}: {{ value }}
+      {{ key }}: "{{ value }}"
 {% endfor %}
     depends_on:
       - "postgres"
