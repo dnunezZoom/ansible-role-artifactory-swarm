@@ -30,7 +30,7 @@ services:
       DB_TYPE: postgresql
       DB_USER: "{{ artifactory_postgres_user }}"
       DB_PASSWORD: "{{ artifactory_postgres_pass }}"
-      EXTRA_JAVA_OPTIONS "{{ artifactory_javaopts }}"
+      EXTRA_JAVA_OPTIONS: "{{ artifactory_javaopts }}"
 {% for key, value in artifactory_env_vars.items() %}
       {{ key }}: "{{ value }}"
 {% endfor %}
