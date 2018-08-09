@@ -41,6 +41,10 @@ services:
     entrypoint: /entrypoint-artifactory.sh
     networks:
         - {{artifactory_network_name}}
+{% for net in artifactory_networks %}
+        - {{net}}
+{% endfor %}
+ 
 {% if artifactory_deploy_labels %}
     labels:
 {% for key, value in artifactory_deploy_labels.items() %}
