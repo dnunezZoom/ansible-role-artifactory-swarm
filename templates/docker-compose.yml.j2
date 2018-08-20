@@ -25,7 +25,7 @@ services:
     image: "{{artifactory_image}}:{{artifactory_image_tag}}"
     hostname: artifactory
     user: root
- {% if artifactory_port %}
+{% if artifactory_port %}
     ports:
       - "{{artifactory_port}}:{{artifactory_port}}"
 {% endif %}
