@@ -42,8 +42,6 @@ See [`defaults/main.yml`](defaults/main.yml) for more information.
     - inhumantasr/artifactory_swarm
 ```
 
-This stack includes a proxy which does redirects to whatever port the proxy is bound to. The default is `8082`. Putting another proxy in front of this is untested and could cause problems. Also, this proxy *does not* terminate SSL.
-
 
 ### Removing the stack
 

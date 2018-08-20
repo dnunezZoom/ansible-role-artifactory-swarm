@@ -1,6 +1,6 @@
 ---
 # tasks file for artifactory
-- debug: msg="Starting role artifactory v1.0.1"
+- debug: msg="Starting role artifactory v1.1.0"
 
 - name: remove artifactory stack
   shell: "docker stack rm {{artifactory_stack_name}}"
@@ -13,16 +13,8 @@
   with_items:
     - "{{ artifactory_datapath }}"
     - "{{ artifactory_datapath }}/artifactory"
-    - "{{ artifactory_datapath }}/nginx"
-    - "{{ artifactory_datapath }}/nginx/logs"
     - "{{ artifactory_postgres_datapath | dirname }}"
     - "{{ artifactory_postgres_datapath }}"
-
-- name: Drop NGINX config file
-  copy:
-    dest: "{{ artifactory_datapath }}/nginx/nginx.conf"
-    content: "{{ artifactory_proxy_config }}"
-    mode: 0644
 
 - name: write template to temp location
   template:
